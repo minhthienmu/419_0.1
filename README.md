@@ -8,8 +8,8 @@ Phiên bản 0.1:
     +Tạo bảng: ListUser: username nvarchar(50) - password nvarchar(50)
     +NewQuery:
     CREATE FUNCTION Check_Login(@USERNAME NVARCHAR(50), @PASS NVARCHAR(50))
-    RETURNS INT AS
-    BEGIN 
+    RETURNS INT AS \n
+    BEGIN \n
 	    IF EXISTS(SELECT *FROM dbo.ListUser WHERE username = @USERNAME)
 	      BEGIN
 		      IF EXISTS(SELECT *FROM dbo.ListUser WHERE username = @USERNAME AND pass = @PASS)
