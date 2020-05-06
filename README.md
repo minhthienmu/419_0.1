@@ -2,7 +2,7 @@
 
 Phiên bản 0.1:
 Để chạy được
-- Add lib
+- Add lib - (Intelij: File -> Project Structure -> Libraries -> (+) -> Chọn đường dẫn tới thư mục lib 
 - Tạo Database (Microsoft Sql): 
   -Tạo DB User:
     +Tạo bảng: ListUser: username nvarchar(50) - password nvarchar(50)
