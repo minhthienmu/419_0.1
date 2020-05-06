@@ -1,0 +1,16 @@
+cmd:
+1. Login: login username password
+2. Send msg: send username message
+
+
+
+
+
+
+
+
+
+History:
+//Version 0.1
+Create: 21h-3/5/2020
+Update: 23/4/5/2020 - login from database
