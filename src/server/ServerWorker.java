@@ -46,9 +46,6 @@ public class ServerWorker extends Thread{
                 } else if ("send".equalsIgnoreCase(tag)) {
                     String[] tokenMsg = StringUtils.split(line, null, 3);
                     handleMessage(tokenMsg);
-                } else if ("logout".equalsIgnoreCase(tag)){
-                    handleLogout(line);
-                    break;
                 }
             }
         }
@@ -81,16 +78,9 @@ public class ServerWorker extends Thread{
         }
     }
 
-    private void handleLogout(String line) throws IOException {
-        server.removeWorker(this);
-        clientSocket.close();
-    }
-
     private void handleMessage(String[] tokens) {//Xu li Message
         String sendTo = tokens[1]; //Gui toi
         String body = tokens[2]; //noi dung
 
     }
-
-
 }
