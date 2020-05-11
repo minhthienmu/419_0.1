@@ -32,9 +32,14 @@ public class Client{
     public boolean Check_Login(String username, String password) throws IOException {
         String cmd = "login " + username + " " + password + "\n";
         serverOut.write(cmd.getBytes());
-
         String response = bufferredIn.readLine();
-
         return "OK Login".equalsIgnoreCase(response);
     }
+
+    public void Log_Out() throws IOException {
+        String cmd = "logout \n";
+        serverOut.write(cmd.getBytes());
+    }
+
+
 }

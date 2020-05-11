@@ -25,4 +25,6 @@ public class ClientGUI extends Application {
         //client.connect();
 
     }
+
+
 }
