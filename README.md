@@ -10,3 +10,4 @@ Phiên bản 0.1:
   - Mở port 1433 để kết nối tới Microsoft SQL: Hướng dẫn: https://www.youtube.com/watch?v=BF0DKnhk4Ek
 - Cài telnet - search gg
     
+Update 1A.M 13/5 - Đã pass được obj client từ controller này sang controller khác (trong Client2)
