@@ -7,6 +7,5 @@ public class MainServer{
         int port = 3333;
         Server serverManager = new Server(port);
         serverManager.start();
-
     }
 }

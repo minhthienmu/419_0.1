@@ -21,7 +21,6 @@ public class ServerWorker extends Thread{
         this.clientSocket = clientSocket;
     }
 
-
     @Override
     public void run() {
         try {

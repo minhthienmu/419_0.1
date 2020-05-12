@@ -28,7 +28,6 @@ public class Server extends Thread{
                 ServerWorker worker = new ServerWorker(this, clientSocket);
                 workerList.add(worker);
                 worker.start();
-
             }
         } catch (IOException e) {
             e.printStackTrace();
