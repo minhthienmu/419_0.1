@@ -14,20 +14,29 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginWindow extends Application {
+public class LoginWindow{
     Client client = new Client("localhost", 3333);
+
+
     @FXML
     private TextField Username;
     @FXML
     private PasswordField Password;
     @FXML
     private Button login;
+    @FXML
+    private Button logout;
+    @FXML
+    private TextField send;
 
+
+    public void Message(ActionEvent event) {
+    }
 
     public void Login(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
-        client.connect();
+        //client.connect();
         String username = Username.getText();
         String password = Password.getText();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -39,39 +48,31 @@ public class LoginWindow extends Application {
 
             stage.setScene(scene);
             stage.show();
+            //client.Log_Out();
         } else {
             alert.setContentText("Login failed");
             alert.show();
         }
     }
 
-    //public void
-    public void Logout(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Log out");
-        alert.show();
-        client.Log_Out();
 
-        /*Stage stage;
+    public void Logout(ActionEvent event) throws IOException {
+        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Log out");
+        alert.show();*/
+        Stage stage;
         Parent root;
 
         stage = (Stage) logout.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        client.Log_Out();
-        stage.show();*/
+        stage.show();
+        //client.Log_Out();
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
-        primaryStage.setTitle("Chat 419");
-        primaryStage.setScene(new Scene(root, 600,400));
-        primaryStage.show();
-
-    }
 
 
 
 }
+

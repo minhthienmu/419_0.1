@@ -41,5 +41,10 @@ public class Client{
         serverOut.write(cmd.getBytes());
     }
 
+    public void Send_Msg(String msg, String username) throws IOException {
+        String cmd = "msg " + username + " " + msg + "\n";
+        serverOut.write(cmd.getBytes());
+    }
+
 
 }
