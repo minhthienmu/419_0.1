@@ -16,7 +16,7 @@ public class Client{
         this.serverPort = serverPort;
     }
 
-    void connect(){
+    public void connect(){
         try {
             this.socket = new Socket(serverName, serverPort);
             //this.socket = new Socket("localhost", 3333);

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ServerWorker extends Thread{
     private final Server server;
@@ -43,7 +44,7 @@ public class ServerWorker extends Thread{
                 String tag = tokens[0];
                 if ("login".equalsIgnoreCase(tag)) {
                     handleLogin(outputStream, tokens);
-                } else if ("send".equalsIgnoreCase(tag)) {
+                } else if ("msg".equalsIgnoreCase(tag)) {
                     String[] tokenMsg = StringUtils.split(line, null, 3);
                     handleMessage(tokenMsg);
                 } else if ("logout".equalsIgnoreCase(tag)){
@@ -74,6 +75,26 @@ public class ServerWorker extends Thread{
                 outputStream.write(msg.getBytes());
                 this.user = username;
                 System.out.println("User logged in succesfully: " + username);
+
+                ArrayList<ServerWorker> workerList = server.getWorkerList();
+
+                // send current user all other online logins
+                for(ServerWorker worker: workerList){
+                    if (!user.equals(worker.getLogin())) {
+                        if(worker.getLogin() != null) {
+                            String msg2 = "online " + worker.getLogin() + "\n";
+                            send(msg2);
+                        }
+                    }
+                }
+
+                // send other online users current user's status
+                String onlineMsg = "online " + user + "\n";
+                for(ServerWorker worker: workerList){
+                    if (!user.equals(worker.getLogin())) {
+                        worker.send(onlineMsg);
+                    }
+                }
             } else {
                 String msg = "Error Login\n";
                 outputStream.write(msg.getBytes());
@@ -81,11 +102,28 @@ public class ServerWorker extends Thread{
         }
     }
 
-    private void handleMessage(String[] tokens) {//Xu li Message
+    private void handleMessage(String[] tokens) throws IOException {//Xu li Message
         String sendTo = tokens[1]; //Gui toi
         String body = tokens[2]; //noi dung
 
+        ArrayList<ServerWorker> workerList = server.getWorkerList();
+        for(ServerWorker worker: workerList) {
+            if (sendTo.equalsIgnoreCase(worker.getLogin())) {
+                String outMsg = "msg " + sendTo + " " + body + "\n";
+                worker.send(outMsg);
+            }
+        }
 
+    }
+
+    private String getLogin() {
+        return user;
+    }
+
+    private void send(String msg) throws IOException {
+        if (user != null) {
+            outputStream.write(msg.getBytes());
+        }
     }
 
     private void handleLogout() throws IOException {
