@@ -1,5 +1,7 @@
 package client2;
 
+import javafx.scene.control.TextField;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -38,6 +40,11 @@ public class Client {
 
     public void Log_Out() throws IOException {
         String cmd = "logout \n";
+        serverOut.write(cmd.getBytes());
+    }
+
+    public void Send_Msg(String user, String msg) throws IOException {
+        String cmd = "msg " + user + " " + msg + "\n";
         serverOut.write(cmd.getBytes());
     }
 }

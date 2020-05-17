@@ -34,7 +34,7 @@ public class ServerWorker extends Thread{
         InputStream inputStream = clientSocket.getInputStream(); //Luong nhan du lieu tu Client gui den (nhi phan)
         this.outputStream = clientSocket.getOutputStream(); //Luong tra du lieu cho Client
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream)); //Luong doc ki tu
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         String line;
         while ((line = reader.readLine()) != null){ //Doc du lieu theo dong
@@ -112,7 +112,6 @@ public class ServerWorker extends Thread{
                 worker.send(outMsg);
             }
         }
-
     }
 
     private String getLogin() {

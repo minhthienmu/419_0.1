@@ -1,5 +1,6 @@
 package client2;
 
+import client2.controller.AppViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,6 @@ public class MainClient extends Application {
         launch(args);
     }
 
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         /*Parent root = FXMLLoader.load(getClass().getResource("view/LoginView.fxml"));
@@ -23,6 +23,7 @@ public class MainClient extends Application {
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();*/
         MainClient.primaryStage = primaryStage;
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
         showLoginView();
     }
 
@@ -47,7 +48,7 @@ public class MainClient extends Application {
         avc.setClient(client);
 
         primaryStage.setTitle("Chat 419");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

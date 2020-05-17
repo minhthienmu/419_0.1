@@ -1,16 +1,18 @@
-package client2;
+package client2.controller;
 
-import client.Client;
-import javafx.event.ActionEvent;
+import client2.MainClient;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController{
+public class LoginController implements Initializable {
     client2.Client client = new client2.Client("localhost", 3333);
     @FXML
     TextField Username = new TextField();
@@ -18,8 +20,7 @@ public class LoginController{
     PasswordField Password = new PasswordField();
     @FXML
     Button login = new Button();
-    @FXML
-    Button logout = new Button();
+
 
 
     public void Login() throws IOException {
@@ -36,5 +37,8 @@ public class LoginController{
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
+    }
 }
