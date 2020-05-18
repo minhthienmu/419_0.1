@@ -19,7 +19,7 @@ public class LoginController implements Initializable {
     @FXML
     PasswordField Password = new PasswordField();
     @FXML
-    Button login = new Button();
+    Button btnlogin = new Button();
 
 
 

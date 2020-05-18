@@ -7,7 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,11 +18,22 @@ import java.util.ResourceBundle;
 public class AppViewController implements Initializable {
     private Client client;
     @FXML
-    Button logout = new Button();
+    Button btnlogout = new Button();
     @FXML
     TextArea msg = new TextArea();
     @FXML
-    Button send = new Button();
+    Button btnsend = new Button();
+    @FXML
+    ImageView homepageicon = new ImageView();
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        File file = new File("src/client2/image/btnhomepage.png");
+        Image image = new Image(file.toURI().toString());
+        homepageicon.setImage(image);
+    }
+
 
     public void Logout(ActionEvent event) throws IOException {
         MainClient.showLoginView();
@@ -35,8 +49,5 @@ public class AppViewController implements Initializable {
         this.client = client;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
 }
