@@ -12,6 +12,8 @@ public class Client {
     private OutputStream serverOut;
     private InputStream serverIn;
     private BufferedReader bufferredIn;
+    private String currentGroup;
+    private String myName;
 
     public Client(String serverName, int serverPort) {
         this.serverName = serverName;
@@ -43,8 +45,12 @@ public class Client {
         serverOut.write(cmd.getBytes());
     }
 
-    public void Send_Msg(String user, String msg) throws IOException {
-        String cmd = "msg " + user + " " + msg + "\n";
+    public void Send_Msg(String msg) throws IOException {
+        String cmd = "msg " + currentGroup + " " + msg + "\n";
         serverOut.write(cmd.getBytes());
+    }
+
+    public void setName(String username) {
+        this.myName = username;
     }
 }

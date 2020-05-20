@@ -9,6 +9,9 @@ public class Server extends Thread{
     private final int serverPort;
 
     private final ArrayList<ServerWorker> workerList = new ArrayList<>();
+
+    private final ArrayList<GroupChat> listGroup = new ArrayList<>();
+
     public Server(int serverPort){
         this.serverPort = serverPort;
     }
@@ -16,7 +19,9 @@ public class Server extends Thread{
     public ArrayList<ServerWorker> getWorkerList(){
         return workerList;
     }
-
+    public ArrayList<GroupChat> getGroups(){
+        return listGroup;
+    }
     @Override
     public void run() {
         try {
@@ -36,5 +41,10 @@ public class Server extends Thread{
 
     public void removeWorker(ServerWorker serverWorker) {
         workerList.remove(serverWorker);
+    }
+
+    public GroupChat createNewGroup(int ID) throws ClassNotFoundException {
+        GroupChat group = new GroupChat(ID);
+        return group;
     }
 }

@@ -41,7 +41,7 @@ public class AppViewController implements Initializable {
     }
 
     public void Sendmsg(ActionEvent event) throws IOException {
-        client.Send_Msg("user2", msg.getText());
+        client.Send_Msg(msg.getText());
         msg.setText("");
     }
 

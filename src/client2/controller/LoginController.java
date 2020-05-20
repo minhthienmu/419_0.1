@@ -29,6 +29,7 @@ public class LoginController implements Initializable {
         String password = Password.getText();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         if (client.Check_Login(username, password)) {
+            client.setName(username);
             MainClient.showAppView(client);
         } else {
             alert.setContentText("Login failed");

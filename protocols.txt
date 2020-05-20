@@ -1,6 +1,6 @@
 cmd:
 1. Login: login username password
-2. Send msg: send username message
+2. Send msg: send from groupID message
 
 
 

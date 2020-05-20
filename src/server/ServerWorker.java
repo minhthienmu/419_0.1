@@ -4,21 +4,25 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ServerWorker extends Thread{
     private final Server server;
     private final Socket clientSocket;
     private OutputStream outputStream;
+    private final ArrayList<GroupChat> listGroup = new ArrayList<>();
     private String user = null;
-
+    private Connection connect;
     public ServerWorker(Server server, Socket clientSocket) {
         this.server = server;
         this.clientSocket = clientSocket;
+        try {
+            connect = UserDB.getConnection();
+        }
+        catch (ClassNotFoundException e){
+            System.out.println("loi");
+        }
     }
 
     @Override
@@ -29,7 +33,9 @@ public class ServerWorker extends Thread{
             e.printStackTrace();
         }
     }
-
+    private void addGroupChat(GroupChat group){
+        listGroup.add(group);
+    }
     private void handleClient() throws IOException, ClassNotFoundException, SQLException {
         InputStream inputStream = clientSocket.getInputStream(); //Luong nhan du lieu tu Client gui den (nhi phan)
         this.outputStream = clientSocket.getOutputStream(); //Luong tra du lieu cho Client
@@ -61,7 +67,7 @@ public class ServerWorker extends Thread{
 
             int result = 0;
 
-            Connection connect = UserDB.getConnection();
+
             String query = "SELECT dbo.Check_Login(?,?) AS result";
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setString(1, username);
@@ -82,16 +88,17 @@ public class ServerWorker extends Thread{
                     if (!user.equals(worker.getLogin())) {
                         if(worker.getLogin() != null) {
                             String msg2 = "online " + worker.getLogin() + "\n";
-                            send(msg2);
+                            send(user ,msg2);
                         }
                     }
                 }
-
+                // khoi dong tat ca cac group cua user hien tai
+                startAllGroups();
                 // send other online users current user's status
                 String onlineMsg = "online " + user + "\n";
                 for(ServerWorker worker: workerList){
                     if (!user.equals(worker.getLogin())) {
-                        worker.send(onlineMsg);
+                        worker.send(user, onlineMsg);
                     }
                 }
             } else {
@@ -101,15 +108,20 @@ public class ServerWorker extends Thread{
         }
     }
 
-    private void handleMessage(String[] tokens) throws IOException {//Xu li Message
-        String sendTo = tokens[1]; //Gui toi
-        String body = tokens[2]; //noi dung
+    private void handleMessage(String[] tokens) throws IOException, SQLException {//Xu li Message
+//        String sendTo = tokens[1]; //Gui toi
+//        String body = tokens[2]; //noi dung
 
-        ArrayList<ServerWorker> workerList = server.getWorkerList();
-        for(ServerWorker worker: workerList) {
-            if (sendTo.equalsIgnoreCase(worker.getLogin())) {
-                String outMsg = "msg " + sendTo + " " + body + "\n";
-                worker.send(outMsg);
+//        ArrayList<ServerWorker> workerList = server.getWorkerList();
+//        for(ServerWorker worker: workerList) {
+//            if (sendTo.equalsIgnoreCase(worker.getLogin())) {
+//                String outMsg = "msg " + sendTo + " " + body + "\n";
+//                worker.send(outMsg);
+//            }
+//        }
+        for (GroupChat group: listGroup){
+            if (group.getID() == Integer.parseInt(tokens[2])){
+                group.sendMess(tokens[1],tokens[3]);
             }
         }
     }
@@ -117,8 +129,28 @@ public class ServerWorker extends Thread{
     private String getLogin() {
         return user;
     }
-
-    private void send(String msg) throws IOException {
+    private void startAllGroups() throws SQLException, ClassNotFoundException {
+        ResultSet groups = connect.prepareStatement("SELECT groups from dbo.ListUser where id="+this).executeQuery();
+        String[] listGroupID = groups.getString(5).split(",",0);
+        for (String ID: listGroupID){
+            boolean isHad = false;
+            for(GroupChat group: server.getGroups()){
+                if (Integer.toString(group.getID()) == ID){
+                    group.addUserOnl(this);
+                    listGroup.add(group);
+                    isHad = true;
+                    break;
+                }
+            }
+            if (!isHad){
+                GroupChat newGroup = server.createNewGroup(Integer.parseInt(ID));
+                newGroup.addUserOnl(this);
+                listGroup.add(newGroup);
+            }
+        }
+    }
+    public void send(String from, String mess) throws IOException {
+        String msg = from + mess;
         if (user != null) {
             outputStream.write(msg.getBytes());
         }
