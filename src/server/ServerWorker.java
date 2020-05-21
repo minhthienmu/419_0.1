@@ -49,6 +49,9 @@ public class ServerWorker extends Thread{
                 } else if ("logout".equalsIgnoreCase(tag)){
                     handleLogout();
                     break;
+                } else if ("sendfile".equalsIgnoreCase(tag)){
+                    String[] tokenMsg = StringUtils.split(line, null, 3);
+                    handleFiletranfer(tokenMsg);
                 }
             }
         }
@@ -86,7 +89,6 @@ public class ServerWorker extends Thread{
                         }
                     }
                 }
-
                 // send other online users current user's status
                 String onlineMsg = "online " + user + "\n";
                 for(ServerWorker worker: workerList){
@@ -114,15 +116,21 @@ public class ServerWorker extends Thread{
         }
     }
 
-    private String getLogin() {
-        return user;
-    }
-
     private void send(String msg) throws IOException {
         if (user != null) {
             outputStream.write(msg.getBytes());
         }
     }
+
+    private void handleFiletranfer(String[] tokens) {
+
+    }
+
+    private String getLogin() {
+        return user;
+    }
+
+
 
     private void handleLogout() throws IOException {
         server.removeWorker(this);
